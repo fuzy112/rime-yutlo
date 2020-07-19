@@ -1,0 +1,348 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: yutlo
+  name: 粵語羅馬字
+  version: "2020.07.15"
+  author:
+    - Lince <tsingyat@outlook.com>
+
+  description: |-
+    趙元任先生制定的粵語羅馬字方案
+
+  dependencies:
+    - jyut6ping3
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - options: [ noop, variants_hk, trad_tw, simplification ]
+    states: [ 傳統漢字, 香港傳統漢字, 臺灣傳統漢字, 大陆简化汉字 ]
+    # 修改下行註釋，改變預設用字 [0, 1, 2, 3 --> 對應上表]
+    reset: 1
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+  - name: emoji_suggestion
+    # 取消下行註釋，預設啓動 emoji
+    #reset: 1
+    states: [ 冇 Emoji, 有 Emoji ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - affix_segmentor@reverse_lookup
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+    - script_translator@reverse_lookup
+  filters:
+    - simplifier@variants_hk
+    - simplifier@trad_tw
+    - simplifier
+    - simplifier@emoji_suggestion
+    - uniquifier
+    - reverse_lookup_filter
+
+speller:
+  alphabet: zyxwvutsrqponmlkjihgfedcba
+  delimiter: " '"
+  algebra:
+    - xform/\<m([123456])\>/MU$1/
+    - xform/\<ng([123456]\>)/NGU$1/
+    - xform/\<b([aeiouy][a-z]*[123]\>)/P$1/
+    - xform/\<b([aeiouy][a-z]*[456]\>)/B$1/
+    - xform/\<p([aeiouy][a-z]*[123]\>)/PH$1/
+    - xform/\<p([aeiouy][a-z]*[456]\>)/BH$1/
+
+    - xform/\<d([aeiouy][a-z]*[123]\>)/T$1/
+    - xform/\<d([aeiouy][a-z]*[456]\>)/D$1/
+    - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
+    - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
+
+    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+
+    - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
+    - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
+    - xform/\<c([aeiouy][a-z]*[123]\>)/TS$1/
+    - xform/\<c([aeiouy][a-z]*[456]\>)/DS$1/
+
+    - xform/\<m([aeiouy][a-z]*[123]\>)/MH$1/
+    - xform/\<m([aeiouy][a-z]*[456]\>)/M$1/
+    - xform/\<ng([aeiouy][a-z]*[123]\>)/NGH$1/
+    - xform/\<ng([aeiouy][a-z]*[456]\>)/NG$1/
+    - xform/\<n([aeiouy][a-z]*[123]\>)/NH$1/
+    - xform/\<n([aeiouy][a-z]*[456]\>)/N$1/
+
+    - xform/\<j([aeiouy][a-z]*[123]\>)/I$1/
+    - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
+
+    - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
+    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
+    - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
+    - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
+    - xform/\<h([aeiouy][a-z]*[456]\>)/H$1/
+
+    - xform/\<s([aeiouy][a-z]*[123]\>)/S$1/
+    - xform/\<s([aeiouy][a-z]*[456]\>)/Z$1/
+
+    - xform/\<w([aeiouy][a-z]*[123]\>)/U$1/
+    - xform/\<w([aeiouy][a-z]*[456]\>)/W$1/
+
+    - xform/aa([123456])\>/a$1/
+    - xform/oe(ng|k)/eu$1/
+    - xform/e(ng|k)/ea$1/
+    - xform/i(ng|k)/e$1/
+    - xform/eo(i|n|t)/O$1/
+    - xform/o(i|ng|ng|t|k)/oa$1/
+    - xform/([^ey])u(ng|k)/$1o$2/
+    - xform/yu(|n|t)/u$1/
+    - xform/O/o/
+
+    - xform/([aeiou])i(2|5)\>/$1e/
+    - xform/([aeiou])u(2|5)\>/$1o/
+    - xform/([aeiou])ng(2|5)\>/$1g/
+    - xform/([aeiounm])(2|5)\>/$1x/
+
+    - xform/([aeiou])i(3|6)\>/$1y/
+    - xform/([aeiou])u(3|6)\>/$1w/
+    - xform/([aeiou])m(3|6)\>/$1mm/
+    - xform/([aeiou])n(3|6)\>/$1nn/
+    - xform/([aeiou])ng(3|6)\>/$1q/
+    - xform/([aeiou])(3|6)\>/$1h/
+    - xform/[123456]\>//
+
+    - xform/\<Ii(|x|h)\>/i$1/
+
+    - derive/\<TZ/C/
+    - derive/\<DZ/J/
+    - derive/\<TS/CH/
+    - derive/\<DS/JH/
+    - derive/\<S/SH/
+    - derive/\<Z/ZH/
+
+    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+
+    - abbrev/^([a-z]).+$/$1/
+
+translator:
+  dictionary: jyut6ping3
+  prism: yutlo
+  spelling_hints: 8
+  comment_format:
+    - xform/\<m([123456])\>/MU$1/
+    - xform/\<ng([123456]\>)/NGU$1/
+    - xform/\<b([aeiouy][a-z]*[123]\>)/P$1/
+    - xform/\<b([aeiouy][a-z]*[456]\>)/B$1/
+    - xform/\<p([aeiouy][a-z]*[123]\>)/PH$1/
+    - xform/\<p([aeiouy][a-z]*[456]\>)/BH$1/
+
+    - xform/\<d([aeiouy][a-z]*[123]\>)/T$1/
+    - xform/\<d([aeiouy][a-z]*[456]\>)/D$1/
+    - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
+    - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
+
+    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+
+    - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
+    - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
+    - xform/\<c([aeiouy][a-z]*[123]\>)/TS$1/
+    - xform/\<c([aeiouy][a-z]*[456]\>)/DS$1/
+
+    - xform/\<m([aeiouy][a-z]*[123]\>)/MH$1/
+    - xform/\<m([aeiouy][a-z]*[456]\>)/M$1/
+    - xform/\<ng([aeiouy][a-z]*[123]\>)/NGH$1/
+    - xform/\<ng([aeiouy][a-z]*[456]\>)/NG$1/
+    - xform/\<n([aeiouy][a-z]*[123]\>)/NH$1/
+    - xform/\<n([aeiouy][a-z]*[456]\>)/N$1/
+
+    - xform/\<j([aeiouy][a-z]*[123]\>)/I$1/
+    - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
+
+    - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
+    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
+    - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
+    - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
+    - xform/\<h([aeiouy][a-z]*[456]\>)/H$1/
+
+    - xform/\<s([aeiouy][a-z]*[123]\>)/S$1/
+    - xform/\<s([aeiouy][a-z]*[456]\>)/Z$1/
+
+    - xform/\<w([aeiouy][a-z]*[123]\>)/U$1/
+    - xform/\<w([aeiouy][a-z]*[456]\>)/W$1/
+
+    - xform/aa([123456])\>/a$1/
+    - xform/oe(ng|k)/eu$1/
+    - xform/e(ng|k)/ea$1/
+    - xform/i(ng|k)/e$1/
+    - xform/eo(i|n|t)/O$1/
+    - xform/o(i|ng|ng|t|k)/oa$1/
+    - xform/([^ey])u(ng|k)/$1o$2/
+    - xform/yu(|n|t)/u$1/
+    - xform/O/o/
+
+    - xform/([aeiou])i(2|5)\>/$1e/
+    - xform/([aeiou])u(2|5)\>/$1o/
+    - xform/([aeiou])ng(2|5)\>/$1g/
+    - xform/([aeiounm])(2|5)\>/$1x/
+
+    - xform/([aeiou])i(3|6)\>/$1y/
+    - xform/([aeiou])u(3|6)\>/$1w/
+    - xform/([aeiou])m(3|6)\>/$1mm/
+    - xform/([aeiou])n(3|6)\>/$1nn/
+    - xform/([aeiou])ng(3|6)\>/$1q/
+    - xform/([aeiou])(3|6)\>/$1h/
+    - xform/[123456]\>//
+
+    - xform/\<Ii(|x|h)\>/i$1/
+
+    - derive/\<TZ/C/
+    - derive/\<DZ/J/
+    - derive/\<TS/CH/
+    - derive/\<DS/JH/
+    - derive/\<S/SH/
+    - derive/\<Z/ZH/
+
+    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+
+reverse_lookup:
+  overwrite_comment: false
+  dictionary: jyut6ping3
+  tag: reverse_lookup
+  prefix: "`"
+  suffix: ";"
+  tips: 〔粵拼〕
+  preedit_format:
+    - xform/([aeioumngptk])vv/${1}4/
+    - xform/([aeioumngptk])xx/${1}5/
+    - xform/([aeioumngptk])qq/${1}6/
+    - xform/([aeioumngptk])v/${1}1/
+    - xform/([aeioumngptk])x/${1}2/
+    - xform/([aeioumngptk])q/${1}3/
+  comment_format:
+    - xform/\<m([123456])\>/MU$1/
+    - xform/\<ng([123456]\>)/NGU$1/
+    - xform/\<b([aeiouy][a-z]*[123]\>)/P$1/
+    - xform/\<b([aeiouy][a-z]*[456]\>)/B$1/
+    - xform/\<p([aeiouy][a-z]*[123]\>)/PH$1/
+    - xform/\<p([aeiouy][a-z]*[456]\>)/BH$1/
+
+    - xform/\<d([aeiouy][a-z]*[123]\>)/T$1/
+    - xform/\<d([aeiouy][a-z]*[456]\>)/D$1/
+    - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
+    - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
+
+    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+
+    - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
+    - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
+    - xform/\<c([aeiouy][a-z]*[123]\>)/TS$1/
+    - xform/\<c([aeiouy][a-z]*[456]\>)/DS$1/
+
+    - xform/\<m([aeiouy][a-z]*[123]\>)/MH$1/
+    - xform/\<m([aeiouy][a-z]*[456]\>)/M$1/
+    - xform/\<ng([aeiouy][a-z]*[123]\>)/NGH$1/
+    - xform/\<ng([aeiouy][a-z]*[456]\>)/NG$1/
+    - xform/\<n([aeiouy][a-z]*[123]\>)/NH$1/
+    - xform/\<n([aeiouy][a-z]*[456]\>)/N$1/
+
+    - xform/\<j([aeiouy][a-z]*[123]\>)/I$1/
+    - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
+
+    - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
+    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
+    - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
+    - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
+    - xform/\<h([aeiouy][a-z]*[456]\>)/H$1/
+
+    - xform/\<s([aeiouy][a-z]*[123]\>)/S$1/
+    - xform/\<s([aeiouy][a-z]*[456]\>)/Z$1/
+
+    - xform/\<w([aeiouy][a-z]*[123]\>)/U$1/
+    - xform/\<w([aeiouy][a-z]*[456]\>)/W$1/
+
+    - xform/aa([123456])\>/a$1/
+    - xform/oe(ng|k)/eu$1/
+    - xform/e(ng|k)/ea$1/
+    - xform/i(ng|k)/e$1/
+    - xform/eo(i|n|t)/O$1/
+    - xform/o(i|ng|ng|t|k)/oa$1/
+    - xform/([^ey])u(ng|k)/$1o$2/
+    - xform/yu(|n|t)/u$1/
+    - xform/O/o/
+
+    - xform/([aeiou])i(2|5)\>/$1e/
+    - xform/([aeiou])u(2|5)\>/$1o/
+    - xform/([aeiou])ng(2|5)\>/$1g/
+    - xform/([aeiounm])(2|5)\>/$1x/
+
+    - xform/([aeiou])i(3|6)\>/$1y/
+    - xform/([aeiou])u(3|6)\>/$1w/
+    - xform/([aeiou])m(3|6)\>/$1mm/
+    - xform/([aeiou])n(3|6)\>/$1nn/
+    - xform/([aeiou])ng(3|6)\>/$1q/
+    - xform/([aeiou])(3|6)\>/$1h/
+    - xform/[123456]\>//
+
+    - xform/\<Ii(|x|h)\>/i$1/
+
+    - derive/\<TZ/C/
+    - derive/\<DZ/J/
+    - derive/\<TS/CH/
+    - derive/\<DS/JH/
+    - derive/\<S/SH/
+    - derive/\<Z/ZH/
+
+    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+
+variants_hk:
+  option_name: variants_hk
+  opencc_config: t2hkf.json
+
+trad_tw:
+  option_name: trad_tw
+  opencc_config: t2tw.json
+
+emoji_suggestion:
+  opencc_config: emoji.json
+  option_name: emoji_suggestion
+  tips: all
+
+punctuator:
+  import_preset: symbols_cantonese
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "`[a-z]*'?$"
