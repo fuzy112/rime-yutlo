@@ -2,7 +2,7 @@
 
 配方： ℞ **chingyat/rime-yutlo**
 
-[Rime](https://rime.im) 国语罗马字输入方案
+[Rime](https://rime.im) 粤语罗马字输入方案
 
 ## 安装
 
