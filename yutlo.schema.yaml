@@ -97,7 +97,7 @@ speller:
     - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
 
     - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
-    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<f([aeiouy][a-z]*[456]\>)/V$1/
     - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
     - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
     - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
@@ -183,7 +183,7 @@ translator:
     - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
 
     - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
-    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<f([aeiouy][a-z]*[456]\>)/V$1/
     - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
     - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
     - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
@@ -277,7 +277,7 @@ reverse_lookup:
     - xform/\<j([aeiouy][a-z]*[456]\>)/Y$1/
 
     - xform/\<f([aeiouy][a-z]*[123]\>)/F$1/
-    - xform/\<f([aeiouy][a-z]*[123]\>)/V$1/
+    - xform/\<f([aeiouy][a-z]*[456]\>)/V$1/
     - xform/\<l([aeiouy][a-z]*[123]\>)/LH$1/
     - xform/\<l([aeiouy][a-z]*[456]\>)/L$1/
     - xform/\<h([aeiouy][a-z]*[123]\>)/X$1/
