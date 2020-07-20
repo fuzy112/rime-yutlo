@@ -76,10 +76,10 @@ speller:
     - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
     - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
 
-    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
-    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
-    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
-    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+    - xform/\<g([waeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([waeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([waeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([waeiouy][a-z]*[456]\>)/GH$1/
 
     - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
     - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
@@ -162,10 +162,10 @@ translator:
     - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
     - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
 
-    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
-    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
-    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
-    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+    - xform/\<g([waeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([waeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([waeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([waeiouy][a-z]*[456]\>)/GH$1/
 
     - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
     - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
@@ -256,10 +256,10 @@ reverse_lookup:
     - xform/\<t([aeiouy][a-z]*[123]\>)/TH$1/
     - xform/\<t([aeiouy][a-z]*[456]\>)/DH$1/
 
-    - xform/\<g([aeiouy][a-z]*[123]\>)/K$1/
-    - xform/\<g([aeiouy][a-z]*[456]\>)/G$1/
-    - xform/\<k([aeiouy][a-z]*[123]\>)/KH$1/
-    - xform/\<k([aeiouy][a-z]*[456]\>)/GH$1/
+    - xform/\<g([waeiouy][a-z]*[123]\>)/K$1/
+    - xform/\<g([waeiouy][a-z]*[456]\>)/G$1/
+    - xform/\<k([waeiouy][a-z]*[123]\>)/KH$1/
+    - xform/\<k([waeiouy][a-z]*[456]\>)/GH$1/
 
     - xform/\<z([aeiouy][a-z]*[123]\>)/TZ$1/
     - xform/\<z([aeiouy][a-z]*[456]\>)/DZ$1/
